@@ -57,8 +57,9 @@ public class Visit extends BaseEntity {
 		return this.date;
 	}
 
-	public void setDate(LocalDate date) {
+	public Visit setDate(LocalDate date) {
 		this.date = date;
+		return this;
 	}
 
 	public String getDescription() {

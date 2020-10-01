@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +48,8 @@ import org.springframework.samples.petclinic.visit.Visit;
 @Entity
 @Table(name = "pets")
 public class Pet extends NamedEntity {
+
+	public Pet() {}
 
 	@Column(name = "birth_date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -87,7 +90,7 @@ public class Pet extends NamedEntity {
 		this.owner = owner;
 	}
 
-	protected Set<Visit> getVisitsInternal() {
+	private Set<Visit> getVisitsInternal() {
 		if (this.visits == null) {
 			this.visits = new HashSet<>();
 		}
@@ -102,6 +105,27 @@ public class Pet extends NamedEntity {
 		List<Visit> sortedVisits = new ArrayList<>(getVisitsInternal());
 		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
 		return Collections.unmodifiableList(sortedVisits);
+	}
+
+	public List<Visit> getVisitsBetween(LocalDate start, LocalDate end) {
+		return getVisitsInternal().stream()
+			.filter(visit -> {
+				return visit.getDate().isAfter(start) &&
+					visit.getDate().isBefore(end);
+			})
+			.collect(Collectors.toList());
+	}
+
+	public List<Visit> getVisitsUntilAge(int age) {
+		return getVisitsInternal().stream()
+			.filter(visit -> {
+				return getBirthDate().until(visit.getDate()).getYears() < age;
+			})
+			.collect(Collectors.toList());
+	}
+
+	public void removeVisit(Visit visit) {
+		getVisitsInternal().remove(visit);
 	}
 
 	public void addVisit(Visit visit) {
