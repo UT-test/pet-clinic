@@ -48,4 +48,7 @@ public class BaseEntity implements Serializable {
 		return this.id == null;
 	}
 
+	public boolean sameId(BaseEntity entity) {
+		return id.equals(entity.getId());
+	}
 }
