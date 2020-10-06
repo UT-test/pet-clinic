@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.owner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -40,6 +42,8 @@ class PetController {
 
 	private final OwnerRepository owners;
 
+	private final Logger log = LoggerFactory.getLogger(PetController.class);
+
 	public PetController(PetRepository pets, OwnerRepository owners) {
 		this.pets = pets;
 		this.owners = owners;
@@ -52,6 +56,7 @@ class PetController {
 
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable("ownerId") int ownerId) {
+		log.info("find owner {}", ownerId);
 		return this.owners.findById(ownerId);
 	}
 
@@ -67,6 +72,7 @@ class PetController {
 
 	@GetMapping("/pets/new")
 	public String initCreationForm(Owner owner, ModelMap model) {
+		log.info("init creation form for owner {}", owner.getId());
 		Pet pet = new Pet();
 		owner.addPet(pet);
 		model.put("pet", pet);
@@ -75,6 +81,7 @@ class PetController {
 
 	@PostMapping("/pets/new")
 	public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
+		log.info("process creation form {}", owner.getId());
 		if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
 			result.rejectValue("name", "duplicate", "already exists");
 		}
@@ -91,6 +98,7 @@ class PetController {
 
 	@GetMapping("/pets/{petId}/edit")
 	public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
+		log.info("init update form {}", petId);
 		Pet pet = this.pets.findById(petId);
 		model.put("pet", pet);
 		return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -98,6 +106,7 @@ class PetController {
 
 	@PostMapping("/pets/{petId}/edit")
 	public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
+		log.info("process update form {}", pet.getId());
 		if (result.hasErrors()) {
 			pet.setOwner(owner);
 			model.put("pet", pet);
