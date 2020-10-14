@@ -60,7 +60,7 @@ public class PetTimedCache {
 		} else {
 			log.info("cache miss");
 			Pet pet = repository.findById(key);
-			if(pet != null && pet.getId() != null) {
+			if(pet != null) {
 				put(pet);
 			}
 			return pet;
@@ -69,7 +69,6 @@ public class PetTimedCache {
 
 	public void save(Pet pet) {
 		repository.save(pet);
-		put(pet);
 	}
 
 	class CleanerThread extends Thread {
