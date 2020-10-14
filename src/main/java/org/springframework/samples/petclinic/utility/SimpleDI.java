@@ -10,14 +10,14 @@ import java.util.concurrent.Callable;
  */
 public abstract class SimpleDI {
 
-	public static SimpleDI getInstance() throws Exception {
-		// todo return the singleton instance of dependency injection
+	public static SimpleDI getDIContainer() throws Exception {
+		// todo return the singleton instance of your implementation of dependency injection container
 		throw new Exception("not implemented");
 	}
 
-	public abstract void provideByInstance(Class<? extends Object> typeClass, Object instanceOfType);
+	public abstract void provideByInstance(Class<?> typeClass, Object instanceOfType);
 
-	public abstract void provideByAConstructorFunction(Class<? extends Object> typeClass, Callable<Object> providerFunction);
+	public abstract void provideByAConstructorFunction(Class<?> typeClass, Callable<Object> providerFunction);
 
-	public abstract Object get(Class<? extends Object> requiredType) throws Exception;
+	public abstract Object getInstanceOf(Class<?> requiredType) throws Exception;
 }
