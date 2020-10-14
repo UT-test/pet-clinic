@@ -1,19 +1,23 @@
 package org.springframework.samples.petclinic.utility;
 
+import org.springframework.samples.petclinic.owner.PetRepository;
+
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 
-public class SimpleDI extends HashMap<Class<? extends Object>, Object> {
+/**
+ * this simple class shows the main idea behind a Dependency Injection library
+ */
+public abstract class SimpleDI {
 
-	private SimpleDI() {
-		super();
+	public static SimpleDI getInstance() throws Exception {
+		// todo return the singleton instance of dependency injection
+		throw new Exception("not implemented");
 	}
 
-	private static SimpleDI INSTANCE;
+	public abstract void provideByInstance(Class<? extends Object> typeClass, Object instanceOfType);
 
-	public static SimpleDI getInstance() {
-		if(INSTANCE == null) {
-			INSTANCE = new SimpleDI();
-		}
-		return INSTANCE;
-	}
+	public abstract void provideByAConstructorFunction(Class<? extends Object> typeClass, Callable<Object> providerFunction);
+
+	public abstract Object get(Class<? extends Object> requiredType) throws Exception;
 }
