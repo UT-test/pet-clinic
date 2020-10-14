@@ -2,12 +2,13 @@ package org.springframework.samples.petclinic.owner;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PetService {
 
-	private final PetRepository pets;
+	private final PetTimedCache pets;
 
 	private final OwnerRepository owners;
 
@@ -15,7 +16,7 @@ public class PetService {
 
 	@Autowired
 	public PetService(
-		PetRepository pets,
+		PetTimedCache pets,
 		OwnerRepository owners,
 		Logger criticalLogger) {
 		this.pets = pets;
@@ -37,7 +38,7 @@ public class PetService {
 
 	public Pet findPet(int petId) {
 		log.info("find pet by id {}", petId);
-		return this.pets.findById(petId);
+		return this.pets.get(petId);
 	}
 
 	public void savePet(Pet pet, Owner owner) {
