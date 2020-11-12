@@ -51,7 +51,7 @@ public class TriType {
 
 			triOut = 4;
 
-			return (triOut);
+			return triOut;
 		}
 
 		triOut = 0;
@@ -65,14 +65,13 @@ public class TriType {
 		if (Side2 == Side3)
 			triOut = triOut + 3;
 
-		// Confirm it’s a valid triangle before declaring
-		// it to be scaleneif (Side1 + Side2 <= Side3 || Side2 + Side3 <= Side1 ||
+		// Confirm it’s a valid triangle before declaring it to be scalene
 		if (triOut == 0) {
 			if (Side1+Side2 <= Side3 || Side2+Side3 <= Side1 || Side1+Side3 <= Side2)
 				triOut = 4;
 			else
 				triOut = 1;
-			return (triOut);
+			return triOut;
 		}
 
 		// Confirm it’s a valid triangle before declaring
@@ -87,6 +86,6 @@ public class TriType {
 			triOut = 2;
 		else
 			triOut = 4;
-		return (triOut);
+		return triOut;
 	}
 }
