@@ -25,11 +25,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.owner.Owner;
-import org.springframework.samples.petclinic.owner.OwnerRepository;
-import org.springframework.samples.petclinic.owner.Pet;
-import org.springframework.samples.petclinic.owner.PetRepository;
-import org.springframework.samples.petclinic.owner.PetType;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.samples.petclinic.owner.*;
+import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.samples.petclinic.vet.Vet;
 import org.springframework.samples.petclinic.vet.VetRepository;
 import org.springframework.samples.petclinic.visit.Visit;
@@ -66,7 +64,12 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  * @author Dave Syer
  */
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@DataJpaTest(includeFilters = {
+	@ComponentScan.Filter(Service.class),
+	@ComponentScan.Filter(value = PetTypeFormatter.class, type = FilterType.ASSIGNABLE_TYPE),
+	@ComponentScan.Filter(value = LoggerConfig.class, type = FilterType.ASSIGNABLE_TYPE),
+	@ComponentScan.Filter(value = PetTimedCache.class, type = FilterType.ASSIGNABLE_TYPE)
+})
 class ClinicServiceTests {
 
 	@Autowired
