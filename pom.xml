@@ -33,6 +33,13 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.github.mryf323</groupId>
+      <artifactId>tractatus</artifactId>
+      <version>1.0.2</version>
+      <scope>test</scope>
+      <systemPath>${project.basedir}/src/main/resources/lib/tractatus-1.0.2.jar</systemPath>
+    </dependency>
     <!-- Spring and Spring Boot dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -282,13 +289,6 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
-          </dependency>
-          <dependency>
-            <groupId>com.github.mryf323</groupId>
-            <artifactId>tractatus</artifactId>
-            <version>1.0.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/tractatus-1.0.2.jar</systemPath>
           </dependency>
         </dependencies>
       </plugin>
