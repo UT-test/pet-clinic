@@ -1,0 +1,56 @@
+<html lang="en">
+
+    <head>
+        <title>Tractatus Tests Report</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    </head>
+
+    <body>
+        <h1>Tractatus Test Report</h1>
+
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-primary"><b>Clause Definitions</b></li>
+            <li class="list-group-item">a := x == 0</li>
+            <li class="list-group-item">b := y == 0</li>
+            <li class="list-group-item">c := z == 0</li>
+            <li class="list-group-item">d := w == 0</li>
+        </ul>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th> Coverage Type </th>
+                <th> Predicate </th>
+                <th> Attributes </th>
+                <th> Valuations </th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            <tr>
+                <td>
+                    <span>UniqueTruePoint</span>
+                </td>
+                <td>
+                    <span>ab</span>
+                </td>
+                <td>
+                    <ul>
+                        <li>DNF: ab + acd</li>
+                        <li>Implicant: a(b + cd)</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>a = true</li>
+                        <li>b = true</li>
+                        <li>c = false</li>
+                        <li>d = true</li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
