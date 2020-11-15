@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(ReportingExtension.class)
 @ClauseDefinition(clause = 'a', def = "x == 0")
 @ClauseDefinition(clause = 'b', def = "y == 0")
 @ClauseDefinition(clause = 'c', def = "z == 0")
