@@ -141,7 +141,7 @@
     <dependency>
       <groupId>com.github.mryf323</groupId>
       <artifactId>tractatus</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.2.1</version>
     </dependency>
   </dependencies>
 
@@ -402,9 +402,9 @@
                   <configuration>
                     <groupId>com.github.mryf323</groupId>
                     <artifactId>tractatus</artifactId>
-                    <version>1.0.2</version>
+                    <version>1.0.2.1</version>
                     <packaging>jar</packaging>
-                    <file>${project.basedir}/src/main/resources/lib/tractatus-1.0.2-sources.jar</file>
+                    <file>${project.basedir}/src/main/resources/lib/tractatus-1.0.2.1-sources.jar</file>
                   </configuration>
                 </execution>
               </executions>
