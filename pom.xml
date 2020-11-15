@@ -38,7 +38,7 @@
       <artifactId>tractatus</artifactId>
       <version>1.0.2</version>
       <scope>test</scope>
-      <systemPath>${project.basedir}/src/main/resources/lib/tractatus-1.0.2.jar</systemPath>
+      <systemPath>${project.basedir}/src/main/resources/lib/tractatus-1.0.2-sources.jar</systemPath>
     </dependency>
     <!-- Spring and Spring Boot dependencies -->
     <dependency>
