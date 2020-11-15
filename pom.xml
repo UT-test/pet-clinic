@@ -388,27 +388,6 @@
                 </lifecycleMappingMetadata>
               </configuration>
             </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-install-plugin</artifactId>
-              <version>2.5.2</version>
-              <executions>
-                <execution>
-                  <id>install-tractatus</id>
-                  <phase>initialize</phase>
-                  <goals>
-                    <goal>install-file</goal>
-                  </goals>
-                  <configuration>
-                    <groupId>com.github.mryf323</groupId>
-                    <artifactId>tractatus</artifactId>
-                    <version>1.0.2</version>
-                    <packaging>jar</packaging>
-                    <file>${project.basedir}/src/main/resources/lib/tractatus-1.0.2-sources.jar</file>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin>
           </plugins>
         </pluginManagement>
       </build>
