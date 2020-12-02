@@ -28,6 +28,7 @@
     <wro4j.version>1.8.0</wro4j.version>
 
     <jacoco.version>0.8.5</jacoco.version>
+    <pitest.version>1.5.2</pitest.version>
     <nohttp-checkstyle.version>0.0.4.RELEASE</nohttp-checkstyle.version>
     <spring-format.version>0.0.25</spring-format.version>
   </properties>
@@ -212,23 +213,27 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
-        <executions>
-<!--          <execution>-->
-<!--            <goals>-->
-<!--              <goal>prepare-agent</goal>-->
-<!--            </goals>-->
-<!--          </execution>-->
-<!--          <execution>-->
-<!--            <id>report</id>-->
-<!--            <phase>prepare-package</phase>-->
-<!--            <goals>-->
-<!--              <goal>report</goal>-->
-<!--            </goals>-->
-<!--          </execution>-->
-        </executions>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>${pitest.version}</version>
+        <configuration>
+          <targetClasses>
+            <param>org.springframework.samples.petclinic.owner.VisitController</param>
+          </targetClasses>
+          <targetTests>
+            <param>org.springframework.samples.petclinic.owner.VisitControllerTests</param>
+          </targetTests>
+          <mutators>
+            <mutator>ROR</mutator>
+          </mutators>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>0.12</version>
+          </dependency>
+        </dependencies>
       </plugin>
 
       <!-- Spring Boot Actuator displays build-related information if a git.properties
@@ -287,6 +292,23 @@
       </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>${pitest.version}</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <licenses>
     <license>
