@@ -14,4 +14,4 @@ pipelines:
           caches:
             - maven
           script:
-            - mvn test --file pom.xml
+            - mvn surefire:test --file pom.xml
