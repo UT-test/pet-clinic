@@ -20,7 +20,8 @@
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+    <cucumber.version>6.0.0-RC2</cucumber.version>
+    <junit.version>4.13</junit.version>
     <!-- Web dependencies -->
     <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
     <webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>
@@ -66,35 +67,34 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-junit</artifactId>
-      <version>6.6.1</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-junit-platform-engine</artifactId>
-      <version>6.6.1</version>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>${cucumber.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-spring</artifactId>
-      <version>6.6.1</version>
+      <version>${cucumber.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-        <exclusions>
-            <exclusion>
-                <groupId>org.junit.vintage</groupId>
-                <artifactId>junit-vintage-engine</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-
     <!-- Databases - Uses H2 by default -->
     <dependency>
       <groupId>com.h2database</groupId>
@@ -140,16 +140,6 @@
     <!-- end of webjars -->
 
     <!-- Testing -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
 <!--    <dependency>-->
 <!--      <groupId>org.mockito</groupId>-->
 <!--      <artifactId>mockito-all</artifactId>-->
@@ -174,20 +164,6 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>io.spring.javaformat</groupId>
-        <artifactId>spring-javaformat-maven-plugin</artifactId>
-        <version>${spring-format.version}</version>
-        <executions>
-<!--          <execution>-->
-<!--            <phase>validate</phase>-->
-<!--            <goals>-->
-<!--              <goal>validate</goal>-->
-<!--            </goals>-->
-<!--          </execution>-->
-        </executions>
-      </plugin>
-
-      <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <executions>
@@ -209,27 +185,21 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.pitest</groupId>
-        <artifactId>pitest-maven</artifactId>
-        <version>${pitest.version}</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
         <configuration>
-          <targetClasses>
-            <param>org.springframework.samples.petclinic.owner.VisitController</param>
-          </targetClasses>
-          <targetTests>
-            <param>org.springframework.samples.petclinic.owner.VisitControllerTests</param>
-          </targetTests>
-          <mutators>
-            <mutator>ROR</mutator>
-          </mutators>
+          <excludes>
+            <!-- this plugin run just the unit tests not other test stages
+                avoiding complexity in package phase.-->
+            <exclude>**AcceptanceTest</exclude>
+            <exclude>**SlowTest</exclude>
+            <exclude>**IntegrationTest</exclude>
+            <exclude>**IntegrationTests</exclude>
+            <exclude>**IT</exclude>
+          </excludes>
+          <enableAssertions>true</enableAssertions>
         </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-junit5-plugin</artifactId>
-            <version>0.12</version>
-          </dependency>
-        </dependencies>
       </plugin>
 
       <!-- Spring Boot Actuator displays build-related information if a git.properties
