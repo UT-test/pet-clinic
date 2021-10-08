@@ -29,6 +29,7 @@ class OwnerTest {
 		george.setAddress(georgeAddress);
 		assertEquals(georgeAddress, Objects.requireNonNull(getPrivateFiled(george, "address")).get(george), "Addresses didn't match.");
 	}
+
 	@Test
 	void testSetter_setsAddressNullValue() throws IllegalAccessException {
 		george.setAddress(null);
@@ -104,15 +105,15 @@ class OwnerTest {
 
 	@Test
 	void testGetter_getPetsIntervalValidValue() throws IllegalAccessException {
-		Set <Pet> pets = new HashSet<>(createFiveCats());
+		Set<Pet> pets = new HashSet<>(createFiveCats());
 		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, pets);
-		assertEquals(pets, george.getPetsInternal(), "Pets didn't match." );
+		assertEquals(pets, george.getPetsInternal(), "Pets didn't match.");
 	}
 
 	private Set<Pet> createFiveCats() {
 		Set<Pet> pets = new HashSet<>();
 
-		for (int i=0; i<5; i++) {
+		for (int i = 0; i < 5; i++) {
 			Pet pet = new Pet();
 			pet.setId(i + 100);
 			pet.setName("cat" + (4 - i));
@@ -121,14 +122,15 @@ class OwnerTest {
 		}
 		return pets;
 	}
+
 	private List<Pet> createFiveCatsSortedWithName() {
-		List<Pet> pets = new ArrayList<> ();
+		List<Pet> pets = new ArrayList<>();
 
 		PetType cat = new PetType();
 		cat.setId(1);
 		cat.setName("hamster");
 
-		for (int i=0; i<5; i++) {
+		for (int i = 0; i < 5; i++) {
 			Pet pet = new Pet();
 			pet.setId(i + 100);
 			pet.setName("cat" + i);
@@ -138,22 +140,6 @@ class OwnerTest {
 		return pets;
 	}
 
-	private List<Pet> createListOfThreeDogsWithoutOwnerAscName() {
-		List<Pet> pets = new ArrayList<> ();
-
-		PetType dog = new PetType();
-		dog.setId(1);
-		dog.setName("german dog");
-
-		for (int i=0; i<3; i++) {
-			Pet pet = new Pet();
-			pet.setId(i + 100);
-			pet.setName("cat" + i);
-			pet.setType(dog);
-			pets.add(pet);
-		}
-		return pets;
-	}
 
 	@Test
 	void testSetter_setPetsInternalValidValue() throws IllegalAccessException {
@@ -172,7 +158,7 @@ class OwnerTest {
 	@Test
 	void testGetter_getPets() throws IllegalAccessException {
 		List<Pet> sortedPets = createFiveCatsSortedWithName();
-		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<> (sortedPets));
+		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<>(sortedPets));
 		assertArrayEquals(sortedPets.toArray(), george.getPets().toArray());
 	}
 
@@ -199,7 +185,7 @@ class OwnerTest {
 		pet.setType(cat);
 		Set<Pet> pets = new HashSet<>();
 		pets.add(pet);
-		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<> (pets));
+		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<>(pets));
 		george.removePet(pet);
 		assertNotEquals(pets, Objects.requireNonNull(getPrivateFiled(george, "pets")).get(george));
 		pets.remove(pet);
@@ -212,10 +198,11 @@ class OwnerTest {
 		Pet pet = new Pet();
 		pet.setName("cat1");
 		pets.add(pet);
-		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<> (pets));
+		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<>(pets));
 		assertEquals(pet, george.getPet("cAt1", false));
 		assertNull(george.getPet("cat1", true));
 	}
+
 	@Test
 	void testGetNotNewPet() throws IllegalAccessException {
 		Set<Pet> pets = new HashSet<>();
@@ -223,7 +210,7 @@ class OwnerTest {
 		pet.setName("cat1");
 		pet.setId(1);
 		pets.add(pet);
-		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<> (pets));
+		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<>(pets));
 		assertEquals(pet, george.getPet("Cat1", false));
 		assertEquals(pet, george.getPet("Cat1", true));
 	}
