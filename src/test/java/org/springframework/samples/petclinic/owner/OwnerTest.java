@@ -213,7 +213,7 @@ class OwnerTest {
 		pet.setName("cat1");
 		pets.add(pet);
 		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<> (pets));
-		assertEquals(pet, george.getPet("cat1", false));
+		assertEquals(pet, george.getPet("cAt1", false));
 		assertNull(george.getPet("cat1", true));
 	}
 	@Test
@@ -224,7 +224,7 @@ class OwnerTest {
 		pet.setId(1);
 		pets.add(pet);
 		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<> (pets));
-		assertEquals(pet, george.getPet("cat1", false));
-		assertEquals(pet, george.getPet("cat1", true));
+		assertEquals(pet, george.getPet("Cat1", false));
+		assertEquals(pet, george.getPet("Cat1", true));
 	}
 }
