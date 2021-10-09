@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class PetService {
+public class PetManager {
 
 	private final PetTimedCache pets;
 
@@ -15,7 +17,7 @@ public class PetService {
 	private final Logger log;
 
 	@Autowired
-	public PetService(
+	public PetManager(
 		PetTimedCache pets,
 		OwnerRepository owners,
 		Logger criticalLogger) {
@@ -45,6 +47,13 @@ public class PetService {
 		log.info("save pet {}", pet.getId());
 		owner.addPet(pet);
 		this.pets.save(pet);
+	}
+
+	public List<Pet> getOwnerPets(int ownerId) {
+		log.info("finding the owner's pets by id {}", ownerId);
+		Owner owner = findOwner(ownerId);
+		List<Pet> pets = owner.getPets();
+		return pets;
 	}
 
 }
