@@ -3,9 +3,13 @@ package org.springframework.samples.petclinic.owner;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.utility.PetTimedCache;
+import org.springframework.samples.petclinic.visit.Visit;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PetManager {
@@ -54,6 +58,23 @@ public class PetManager {
 		Owner owner = findOwner(ownerId);
 		List<Pet> pets = owner.getPets();
 		return pets;
+	}
+
+	public Set<PetType> getOwnerPetTypes(int ownerId) {
+		log.info("finding the owner's petTypes by id {}", ownerId);
+		Owner owner = findOwner(ownerId);
+		Set<PetType> petTypes = new HashSet<>();
+		for (Pet pet: owner.getPets()) {
+			petTypes.add(pet.getType());
+		}
+		return petTypes;
+	}
+
+	public List<Visit> getVisitsBetween(int petId, LocalDate startDate, LocalDate endDate) {
+		log.info("get visits for pet {} from {} since {}", petId, startDate, endDate);
+		Pet pet = pets.get(petId);
+		List<Visit> petVisits = pet.getVisitsBetween(startDate, endDate);
+		return petVisits;
 	}
 
 }
