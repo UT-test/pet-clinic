@@ -51,4 +51,11 @@ class OwnerTest {
 		assertEquals("numeric value out of bounds (<10 digits>.<0 digits> expected)", constraintViolations.get(0).getMessage());
 	}
 
+	@Test
+	public void Owners_telephone_must_be_at_most_a_ten_digits_number(){
+		owner.setTelephone("12345678123");
+		constraintViolations.addAll(validator.validate(owner));
+		assertEquals(1, constraintViolations.size());
+		assertEquals("numeric value out of bounds (<10 digits>.<0 digits> expected)", constraintViolations.get(0).getMessage());
+	}
 }
