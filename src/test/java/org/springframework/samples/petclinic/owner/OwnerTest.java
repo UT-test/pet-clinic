@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OwnerTest {
 	private Owner owner;
-	private ValidatorFactory factory;
 	private Validator validator;
 	List<ConstraintViolation<Owner>> constraintViolations;
 
@@ -29,8 +28,7 @@ class OwnerTest {
 		owner.setCity("Tehran");
 		owner.setAddress("Rey");
 		constraintViolations = new ArrayList<>();
-		factory = Validation.buildDefaultValidatorFactory();
-		validator = factory.getValidator();
+		validator = Validation.buildDefaultValidatorFactory().getValidator();
 	}
 
 	@Test
