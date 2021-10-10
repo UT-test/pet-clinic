@@ -23,26 +23,27 @@ class OwnerTest {
 	@BeforeEach
 	void setUp(){
 		owner = new Owner();
-		owner.setFirstName("Amir");
-		owner.setLastName("Aliz");
-		owner.setCity("Tehran");
-		owner.setAddress("Rey");
 		constraintViolations = new ArrayList<>();
 		validator = Validation.buildDefaultValidatorFactory().getValidator();
 	}
 
+	void setUpOwner(){
+		owner.setFirstName("Amir");
+		owner.setLastName("Aliz");
+		owner.setCity("Tehran");
+		owner.setAddress("Rey");
+		owner.setTelephone("9212776104");
+	}
+
 	@Test
 	public void Valid_owner_can_not_have_empty_fields(){
-		owner.setCity("");
-		owner.setFirstName("");
-		owner.setAddress("");
-		owner.setLastName("");
 		constraintViolations.addAll(validator.validate(owner));
 		assertEquals(5, constraintViolations.size(), "Owner has 5 empty fields.");
 	}
 
 	@Test
 	public void Owners_telephone_can_not_contain_characters(){
+		setUpOwner();
 		owner.setTelephone("123456789a");
 		constraintViolations.addAll(validator.validate(owner));
 		assertEquals(1, constraintViolations.size());
@@ -51,6 +52,7 @@ class OwnerTest {
 
 	@Test
 	public void Owners_telephone_must_be_at_most_a_ten_digits_number(){
+		setUpOwner();
 		owner.setTelephone("12345678123");
 		constraintViolations.addAll(validator.validate(owner));
 		assertEquals(1, constraintViolations.size());
