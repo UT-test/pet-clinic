@@ -58,4 +58,11 @@ class OwnerTest {
 		assertEquals(1, constraintViolations.size());
 		assertEquals("numeric value out of bounds (<10 digits>.<0 digits> expected)", constraintViolations.get(0).getMessage());
 	}
+
+	@Test
+	public void Owner_with_valid_fields_is_created_with_no_violations(){
+		setUpOwner();
+		constraintViolations.addAll(validator.validate(owner));
+		assertEquals(0, constraintViolations.size());
+	}
 }
