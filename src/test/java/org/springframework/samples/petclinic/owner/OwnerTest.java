@@ -2,13 +2,16 @@ package org.springframework.samples.petclinic.owner;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.format.datetime.joda.LocalDateParser;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,21 +22,63 @@ class OwnerTest {
 	private Owner owner;
 	private Validator validator;
 	List<ConstraintViolation<Owner>> constraintViolations;
+	Pet pet1, pet2, pet3;
+	Set<Pet> pets;
+	PetType type1, type2;
 
 	@BeforeEach
 	void setUp(){
-		owner = new Owner();
+		pets = new HashSet<>();
 		setUpOwner();
+		setUpTypes();
+		setUpPets();
+		owner.setPetsInternal(pets);
 		constraintViolations = new ArrayList<>();
 		validator = Validation.buildDefaultValidatorFactory().getValidator();
 	}
 
 	void setUpOwner(){
+		owner = new Owner();
 		owner.setFirstName("Amir");
 		owner.setLastName("Aliz");
 		owner.setCity("Tehran");
 		owner.setAddress("Rey");
 		owner.setTelephone("9212776104");
+	}
+
+	void setUpPets(){
+		pet1 = new Pet();
+		pet1.setName("Ali Zare");
+		pet1.setType(type1);
+		pet1.setBirthDate(LocalDate.parse("2000-07-06"));
+		pet1.setId(1);
+		pet1.setOwner(owner);
+		pets.add(pet1);
+
+		pet2 = new Pet();
+		pet2.setName("dog1");
+		pet2.setType(type1);
+		pet2.setBirthDate(LocalDate.parse("2000-07-06"));
+		pet2.setId(2);
+		pet2.setOwner(owner);
+		pets.add(pet2);
+
+		pet3 = new Pet();
+		pet3.setName("cat1");
+		pet3.setType(type2);
+		pet3.setBirthDate(LocalDate.parse("2000-07-06"));
+		pet3.setId(3);
+		pet3.setOwner(owner);
+		pets.add(pet3);
+	}
+
+	void setUpTypes(){
+		type1 = new PetType();
+		type1.setName("dog");
+		type1.setId(1);
+		type2 = new PetType();
+		type2.setName("cat");
+		type2.setId(3);
 	}
 
 	@Test
@@ -72,6 +117,7 @@ class OwnerTest {
 		assertEquals("Tehran", owner.getCity());
 		assertEquals("Rey", owner.getAddress());
 		assertEquals("9212776104", owner.getTelephone());
-
 	}
+
+
 }
