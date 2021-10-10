@@ -23,6 +23,7 @@ class OwnerTest {
 	@BeforeEach
 	void setUp(){
 		owner = new Owner();
+		setUpOwner();
 		constraintViolations = new ArrayList<>();
 		validator = Validation.buildDefaultValidatorFactory().getValidator();
 	}
@@ -37,13 +38,13 @@ class OwnerTest {
 
 	@Test
 	public void Valid_owner_can_not_have_empty_fields(){
+		owner = new Owner();
 		constraintViolations.addAll(validator.validate(owner));
 		assertEquals(5, constraintViolations.size(), "Owner has 5 empty fields.");
 	}
 
 	@Test
 	public void Owners_telephone_can_not_contain_characters(){
-		setUpOwner();
 		owner.setTelephone("123456789a");
 		constraintViolations.addAll(validator.validate(owner));
 		assertEquals(1, constraintViolations.size());
@@ -52,7 +53,6 @@ class OwnerTest {
 
 	@Test
 	public void Owners_telephone_must_be_at_most_a_ten_digits_number(){
-		setUpOwner();
 		owner.setTelephone("12345678123");
 		constraintViolations.addAll(validator.validate(owner));
 		assertEquals(1, constraintViolations.size());
@@ -61,8 +61,17 @@ class OwnerTest {
 
 	@Test
 	public void Owner_with_valid_fields_is_created_with_no_violations(){
-		setUpOwner();
 		constraintViolations.addAll(validator.validate(owner));
 		assertEquals(0, constraintViolations.size());
+	}
+
+	@Test
+	public void Owner_fields_are_saved_correctly(){
+		assertEquals("Amir", owner.getFirstName());
+		assertEquals("Aliz", owner.getLastName());
+		assertEquals("Tehran", owner.getCity());
+		assertEquals("Rey", owner.getAddress());
+		assertEquals("9212776104", owner.getTelephone());
+
 	}
 }
