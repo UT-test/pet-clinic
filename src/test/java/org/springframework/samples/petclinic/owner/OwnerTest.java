@@ -19,7 +19,7 @@ class OwnerTest {
 	List<ConstraintViolation<Owner>> constraintViolations;
 	Pet pet1, pet2, pet3;
 	Set<Pet> pets;
-	PetType type1, type2;
+	PetType dog, cat;
 
 	@BeforeEach
 	void setUp(){
@@ -45,7 +45,7 @@ class OwnerTest {
 
 		pet1 = new Pet();
 		pet1.setName("dog1");
-		pet1.setType(type1);
+		pet1.setType(dog);
 		pet1.setBirthDate(LocalDate.parse("2000-07-06"));
 		pet1.setId(1);
 		pet1.setOwner(owner);
@@ -53,7 +53,7 @@ class OwnerTest {
 
 		pet2 = new Pet();
 		pet2.setName("dog2");
-		pet2.setType(type1);
+		pet2.setType(dog);
 		pet2.setBirthDate(LocalDate.parse("2000-07-06"));
 		pet2.setId(2);
 		pet2.setOwner(owner);
@@ -61,7 +61,7 @@ class OwnerTest {
 
 		pet3 = new Pet();
 		pet3.setName("cat1");
-		pet3.setType(type2);
+		pet3.setType(cat);
 		pet3.setBirthDate(LocalDate.parse("2000-07-06"));
 		pet3.setId(3);
 		pet3.setOwner(owner);
@@ -69,12 +69,12 @@ class OwnerTest {
 	}
 
 	void setUpTypes(){
-		type1 = new PetType();
-		type1.setName("dog");
-		type1.setId(1);
-		type2 = new PetType();
-		type2.setName("cat");
-		type2.setId(3);
+		dog = new PetType();
+		dog.setName("dog");
+		dog.setId(1);
+		cat = new PetType();
+		cat.setName("cat");
+		cat.setId(3);
 	}
 
 	@Test
@@ -161,5 +161,37 @@ class OwnerTest {
 		assertEquals(owner, pet.getOwner());
 	}
 
+	@Test
+	public void Owner_does_not_own_a_pet_with_given_name(){
+		Pet pet = owner.getPet("cat2");
+		assertNull(pet);
+	}
 
+	@Test
+	public void New_pets_with_no_owner_are_owned_when_added_to_an_owners_list(){
+		Pet pet = new Pet();
+		pet.setName("cat2");
+		pet.setType(cat);
+		owner.addPet(pet);
+		assertNotNull(pet.getOwner());
+		assertEquals(owner, pet.getOwner());
+	}
+
+	@Test
+	public void New_pets_are_not_shown_if_they_are_ignored(){
+		Pet pet = new Pet();
+		pet.setName("cat2");
+		pet.setType(cat);
+		owner.addPet(pet);
+		assertNull(owner.getPet("cat2", true));
+	}
+
+	@Test
+	public void New_pets_are_shown_if_they_are_not_ignored(){
+		Pet pet = new Pet();
+		pet.setName("cat2");
+		pet.setType(cat);
+		owner.addPet(pet);
+		assertNotNull(owner.getPet("cat2", false));
+	}
 }
