@@ -2,20 +2,18 @@ package org.springframework.samples.petclinic.owner;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.format.datetime.joda.LocalDateParser;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class OwnerTest {
@@ -119,5 +117,18 @@ class OwnerTest {
 		assertEquals("Rey", owner.getAddress());
 		assertEquals("9212776104", owner.getTelephone());
 	}
+
+	@Test
+	public void Owners_pets_are_saved_correctly(){
+		assertThat(owner.getPetsInternal())
+			.containsExactlyInAnyOrder(pet1, pet2, pet3);
+	}
+
+	@Test
+	public void Owners_pets_are_sorted_alphabetically(){
+		assertThat(owner.getPets())
+			.containsExactly(pet1, pet3, pet2);
+	}
+
 
 }
