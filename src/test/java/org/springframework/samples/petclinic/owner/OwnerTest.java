@@ -28,7 +28,6 @@ class OwnerTest {
 
 	@BeforeEach
 	void setUp(){
-		pets = new HashSet<>();
 		setUpOwner();
 		setUpTypes();
 		setUpPets();
@@ -47,6 +46,8 @@ class OwnerTest {
 	}
 
 	void setUpPets(){
+		pets = new HashSet<>();
+
 		pet1 = new Pet();
 		pet1.setName("Ali Zare");
 		pet1.setType(type1);
@@ -118,6 +119,5 @@ class OwnerTest {
 		assertEquals("Rey", owner.getAddress());
 		assertEquals("9212776104", owner.getTelephone());
 	}
-
 
 }
