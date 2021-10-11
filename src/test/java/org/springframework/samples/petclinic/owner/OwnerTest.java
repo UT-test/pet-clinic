@@ -145,4 +145,21 @@ class OwnerTest {
 			i++;
 		}
 	}
+
+	@Test
+	public void Owner_does_not_own_removed_pets(){
+		owner.removePet(pet2);
+		assertFalse(owner.getPets().contains(pet2));
+		assertNull(owner.getPet("dog1"));
+	}
+
+	@Test
+	public void Owner_owns_a_pet_with_an_specific_name(){
+		Pet pet = owner.getPet("cat1");
+		assertNotNull(pet);
+		assertEquals("cat1", pet.getName());
+		assertEquals(owner, pet.getOwner());
+	}
+
+
 }
