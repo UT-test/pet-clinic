@@ -8,10 +8,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,7 +81,7 @@ class OwnerTest {
 	public void Valid_owner_can_not_have_empty_fields(){
 		owner = new Owner();
 		constraintViolations.addAll(validator.validate(owner));
-		assertEquals(5, constraintViolations.size(), "Owner has 5 empty fields.");
+		assertEquals(5, constraintViolations.size());
 	}
 
 	@Test
@@ -128,6 +125,13 @@ class OwnerTest {
 	public void Owners_pets_are_sorted_alphabetically(){
 		assertThat(owner.getPets())
 			.containsExactly(pet1, pet3, pet2);
+		List<String> petsName = Arrays.asList("Ali Zare", "cat1", "dog1");
+		int i = 0;
+		for(Pet pet: owner.getPets()) {
+			assertEquals(petsName.get(i), pet.getName());
+			i++;
+		}
+
 	}
 
 
