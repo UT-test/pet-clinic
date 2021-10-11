@@ -116,6 +116,19 @@ class OwnerTest {
 	}
 
 	@Test
+	public void New_owners_dont_have_any_pets(){
+		owner = new Owner();
+
+		assertThat(owner.getPets())
+			.isNotNull()
+			.isEmpty();
+
+		assertThat(owner.getPets())
+			.isNotNull()
+			.isEmpty();
+	}
+
+	@Test
 	public void Owners_pets_are_saved_correctly(){
 		assertThat(owner.getPetsInternal())
 			.containsExactlyInAnyOrder(pet1, pet2, pet3);
@@ -131,8 +144,5 @@ class OwnerTest {
 			assertEquals(petsName.get(i), pet.getName());
 			i++;
 		}
-
 	}
-
-
 }
