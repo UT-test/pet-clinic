@@ -44,7 +44,7 @@ class OwnerTest {
 		pets = new HashSet<>();
 
 		pet1 = new Pet();
-		pet1.setName("Ali Zare");
+		pet1.setName("dog1");
 		pet1.setType(type1);
 		pet1.setBirthDate(LocalDate.parse("2000-07-06"));
 		pet1.setId(1);
@@ -52,7 +52,7 @@ class OwnerTest {
 		pets.add(pet1);
 
 		pet2 = new Pet();
-		pet2.setName("dog1");
+		pet2.setName("dog2");
 		pet2.setType(type1);
 		pet2.setBirthDate(LocalDate.parse("2000-07-06"));
 		pet2.setId(2);
@@ -137,8 +137,8 @@ class OwnerTest {
 	@Test
 	public void Owners_pets_are_sorted_alphabetically(){
 		assertThat(owner.getPets())
-			.containsExactly(pet1, pet3, pet2);
-		List<String> petsName = Arrays.asList("Ali Zare", "cat1", "dog1");
+			.containsExactly(pet3, pet1, pet2);
+		List<String> petsName = Arrays.asList("cat1", "dog1", "dog2");
 		int i = 0;
 		for(Pet pet: owner.getPets()) {
 			assertEquals(petsName.get(i), pet.getName());
@@ -150,7 +150,7 @@ class OwnerTest {
 	public void Owner_does_not_own_removed_pets(){
 		owner.removePet(pet2);
 		assertFalse(owner.getPets().contains(pet2));
-		assertNull(owner.getPet("dog1"));
+		assertNull(owner.getPet("dog2"));
 	}
 
 	@Test
