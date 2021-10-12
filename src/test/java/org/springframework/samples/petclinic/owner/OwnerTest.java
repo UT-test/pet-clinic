@@ -1,7 +1,12 @@
 package org.springframework.samples.petclinic.owner;
 
+import org.junit.experimental.theories.DataPoint;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -11,9 +16,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assume.assumeNotNull;
+import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
-class OwnerTest {
+@RunWith(Theories.class)
+public class OwnerTest {
+	public OwnerTest(){}
 	private Owner owner;
 	private Validator validator;
 	List<ConstraintViolation<Owner>> constraintViolations;
@@ -153,12 +162,23 @@ class OwnerTest {
 		assertNull(owner.getPet("dog2"));
 	}
 
-	@Test
-	public void Owner_owns_a_pet_with_an_specific_name(){
-		Pet pet = owner.getPet("cat1");
+	@DataPoints
+	public static String[] pet_names = { "cat1", null, "dog1", "dog2", ""};
+
+	@Theory
+	public void Owner_owns_a_pet_with_an_specific_name(String name){
+		setUpOwner();
+		setUpTypes();
+		setUpPets();
+		owner.setPetsInternal(pets);
+		System.out.printf("Testing with %s.\n", name);
+		assumeNotNull(name);
+		assumeTrue(!name.isEmpty());
+		Pet pet = owner.getPet(name);
 		assertNotNull(pet);
-		assertEquals("cat1", pet.getName());
+		assertEquals(name, pet.getName());
 		assertEquals(owner, pet.getOwner());
+		System.out.printf("Owner owns %s.\n", name);
 	}
 
 	@Test
