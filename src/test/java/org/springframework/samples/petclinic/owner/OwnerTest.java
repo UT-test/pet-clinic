@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.owner;
 
-import org.junit.experimental.theories.DataPoint;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -171,6 +170,7 @@ public class OwnerTest {
 		setUpTypes();
 		setUpPets();
 		owner.setPetsInternal(pets);
+		System.out.println("-------------------------------------------------------");
 		System.out.printf("Testing with %s.\n", name);
 		assumeNotNull(name);
 		assumeTrue(!name.isEmpty());
