@@ -14,12 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(Parameterized.class)
 public class PetServiceTest {
-	private PetService petService;
+	private final PetService petService;
 	private static Pet pet1, pet2, pet3;
-	private int expectedId;
-	private Pet expectedPet;
-	@MockBean
-	private OwnerRepository ownerRepository;
+	private final int expectedId;
+	private final Pet expectedPet;
 
 	public PetServiceTest(int id, Pet pet) {
 		expectedId = id;
