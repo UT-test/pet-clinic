@@ -1,70 +1,75 @@
 package org.springframework.samples.petclinic.owner;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.samples.petclinic.utility.PetTimedCache;
-import org.springframework.samples.petclinic.utility.SimpleDI;
-
 import java.util.Arrays;
 import java.util.Collection;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(Parameterized.class)
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PetServiceTest {
-	private Pet pet1, pet2, pet3;
-	private Owner owner;
-	@Autowired
 	private PetService petService;
+	private static Pet pet1, pet2, pet3;
+	private int expectedId;
+	private Pet expectedPet;
 	@MockBean
-	private PetRepository petRepository;
+	private OwnerRepository ownerRepository;
 
-	void setUp(){
-		owner = new Owner();
-		petService.savePet(pet1, owner);
-		petService.savePet(pet2, owner);
-		petService.savePet(pet3, owner);
-		when(petRepository.findById(1)).thenReturn(pet1);
-		when(petRepository.findById(2)).thenReturn(pet2);
-		when(petRepository.findById(3)).thenReturn(pet3);
-
+	public PetServiceTest(int id, Pet pet) {
+		expectedId = id;
+		expectedPet = pet;
+		petService = mock(PetService.class);
 	}
 
-	void setUpPets(){
+	public void setUp() {
+		setUpPets();
+		when(petService.findPet(1)).thenReturn(pet1);
+		when(petService.findPet(2)).thenReturn(pet2);
+		when(petService.findPet(3)).thenReturn(pet3);
+	}
+
+	void setUpPets() {
 		pet1 = new Pet();
 		pet1.setName("pet1");
-		pet1.setId(1);
 
 		pet2 = new Pet();
 		pet2.setName("pet2");
-		pet2.setId(2);
 
 		pet3 = new Pet();
 		pet3.setName("pet3");
-		pet3.setId(3);
 	}
 
-	@ParameterizedTest
-	@ValueSource(ints = {1, 2, 3})
-	public void Pet_with_an_specific_id_is_found_and_returned_correctly(int expectedId){
-		setUpPets();
+	@Parameters
+	public static Collection<Object[]> pets() {
+		pet1 = new Pet();
+		pet1.setName("pet1");
+
+		pet2 = new Pet();
+		pet2.setName("pet2");
+
+		pet3 = new Pet();
+		pet3.setName("pet3");
+		return Arrays.asList(new Object[][]{
+			{1, pet1},
+			{2, pet2},
+			{3, pet3}
+		});
+	}
+
+	@Test
+	public void Pets_are_found_correctly() {
 		setUp();
+		System.out.println("------------------------------------------------------------");
+		System.out.printf("parametrized test with id: %d\n", expectedId);
 		Pet actualPet = petService.findPet(expectedId);
 		assertNotNull(actualPet);
 		assertEquals("pet" + expectedId, actualPet.getName());
+		System.out.printf("pet %s with id: %d was found.\n", actualPet.getName(), expectedId);
 	}
-
 }
