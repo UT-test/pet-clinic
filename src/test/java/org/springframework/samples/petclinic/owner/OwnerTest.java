@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-
+import java.lang.UnsupportedOperationException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.samples.petclinic.owner.GetObjectField.getPrivateFiled;
 
@@ -160,6 +160,7 @@ class OwnerTest {
 		List<Pet> sortedPets = createFiveCatsSortedWithName();
 		Objects.requireNonNull(getPrivateFiled(george, "pets")).set(george, new HashSet<>(sortedPets));
 		assertArrayEquals(sortedPets.toArray(), george.getPets().toArray());
+		assertThrows(UnsupportedOperationException.class, () -> {george.getPets().add(new Pet());});
 	}
 
 	private Owner createNewOwner() {
