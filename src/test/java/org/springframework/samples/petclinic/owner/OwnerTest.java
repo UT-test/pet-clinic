@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.owner;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +20,6 @@ import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(Theories.class)
 public class OwnerTest {
 	public OwnerTest(){}
 	private Owner owner;
@@ -37,6 +37,18 @@ public class OwnerTest {
 		owner.setPetsInternal(pets);
 		constraintViolations = new ArrayList<>();
 		validator = Validation.buildDefaultValidatorFactory().getValidator();
+	}
+
+	@AfterEach
+	public void tearDown(){
+		owner = null;
+		pets = null;
+		dog = null;
+		cat = null;
+		pet1 = null;
+		pet2 = null;
+		pet3 = null;
+		constraintViolations = null;
 	}
 
 	void setUpOwner(){

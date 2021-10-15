@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.owner;
 
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -26,6 +28,7 @@ public class PetServiceTest {
 		petService = mock(PetService.class);
 	}
 
+	@BeforeAll
 	public void setUp() {
 		setUpPets();
 		when(petService.findPet(1)).thenReturn(pet1);
@@ -42,6 +45,13 @@ public class PetServiceTest {
 
 		pet3 = new Pet();
 		pet3.setName("pet3");
+	}
+
+	@AfterAll
+	public void tearDown(){
+		pet1 = null;
+		pet2 = null;
+		pet3 = null;
 	}
 
 	@Parameters
