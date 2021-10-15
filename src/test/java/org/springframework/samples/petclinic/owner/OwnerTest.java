@@ -168,26 +168,6 @@ public class OwnerTest {
 		assertEquals("cat1", pet.getName());
 		assertEquals(owner, pet.getOwner());
 	}
-	
-	@DataPoints
-	public static String[] pet_names = { "cat1", null, "dog1", "dog2", ""};
-
-	@Theory
-	public void Owner_owns_a_pet_with_an_specific_name(String name){
-		setUpOwner();
-		setUpTypes();
-		setUpPets();
-		owner.setPetsInternal(pets);
-		System.out.println("-------------------------------------------------------");
-		System.out.printf("Testing with %s.\n", name);
-		assumeNotNull(name);
-		assumeTrue(!name.isEmpty());
-		Pet pet = owner.getPet(name);
-		assertNotNull(pet);
-		assertEquals(name, pet.getName());
-		assertEquals(owner, pet.getOwner());
-		System.out.printf("Owner owns %s.\n", name);
-	}
 
 	@Test
 	public void Owner_does_not_own_a_pet_with_given_name(){
