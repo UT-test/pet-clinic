@@ -10,8 +10,11 @@ import org.slf4j.LoggerFactory;
 
 @ExtendWith(ReportingExtension.class)
 
-@ClauseDefinition(clause = 'a', def = "t1arr[0]")
-@ClauseDefinition(clause = 'b', def = "t1arr[0] + t1arr[1] < t1arr[2]")
+@ClauseDefinition(clause = 'a', def = "t1arr[0] != t2arr[0]")
+@ClauseDefinition(clause = 'b', def = "t1arr[1] != t2arr[1]")
+@ClauseDefinition(clause = 'c', def = "t1arr[2] != t2arr[2]")
+@ClauseDefinition(clause = 'd', def = "t1arr[0]")
+@ClauseDefinition(clause = 'e', def = "t1arr[0] + t1arr[1] < t1arr[2]")
 
 class TriCongruenceTest {
 
@@ -26,21 +29,99 @@ class TriCongruenceTest {
 		Assertions.assertFalse(areCongruent);
 	}
 
+	@UniqueTruePoint(
+		predicate = "a + b + c",
+		dnf = "a + b + c",
+		implicant = "a",
+		valuations = {
+			@Valuation(clause = 'a', valuation = true),
+			@Valuation(clause = 'b', valuation = false),
+			@Valuation(clause = 'c', valuation = false)
+		}
+	)
+	@Test
+	public void CutpnfpTest1() {
+		Triangle t1 = new Triangle(2, 7, 7);
+		Triangle t2 = new Triangle(3, 7, 7);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
+
+	@UniqueTruePoint(
+		predicate = "a + b + c",
+		dnf = "a + b + c",
+		implicant = "b",
+		valuations = {
+			@Valuation(clause = 'a', valuation = false),
+			@Valuation(clause = 'b', valuation = true),
+			@Valuation(clause = 'c', valuation = false)
+		}
+	)
+	@Test
+	public void CutpnfpTest2() {
+		Triangle t1 = new Triangle(3, 5, 7);
+		Triangle t2 = new Triangle(3, 6, 7);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
+
+	@UniqueTruePoint(
+		predicate = "a + b + c",
+		dnf = "a + b + c",
+		implicant = "c",
+		valuations = {
+			@Valuation(clause = 'a', valuation = false),
+			@Valuation(clause = 'b', valuation = false),
+			@Valuation(clause = 'c', valuation = true)
+		}
+	)
+	@Test
+	public void CutpnfpTest3() {
+		Triangle t1 = new Triangle(3, 5, 7);
+		Triangle t2 = new Triangle(3, 5, 8);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
+
+	@NearFalsePoint(
+		predicate = "a + b + c",
+		dnf = "a + b + c",
+		implicant = "a",
+		clause = 'a',
+		valuations = {
+			@Valuation(clause = 'a', valuation = false),
+			@Valuation(clause = 'b', valuation = false),
+			@Valuation(clause = 'c', valuation = false)
+		}
+	)
+	@Test
+	public void CutpnfpTest4() {
+		Triangle t1 = new Triangle(3, 5, 7);
+		Triangle t2 = new Triangle(3, 5, 7);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertTrue(areCongruent);
+	}
+
+
 	/**
-	 For clause coverage we have or predicate of a and b clauses
+	 For clause coverage we have or predicate of d and e clauses
 	 As we are using clause coverage we should check all values for both clauses
-	 which includes a = True and a = False
-	 and b = True and b = False
+	 which includes d = True and d = False
+	 and e = True and e = False
 	 We make two tests:
-	 1) a = true and b = true
-	 2) a = false and b = false
+	 1) d = true and e = true
+	 2) d = false and e = false
 	 */
 
 	@ClauseCoverage(
-		predicate = "a + b",
+		predicate = "d + e",
 		valuations = {
-			@Valuation(clause = 'a', valuation = false),
-			@Valuation(clause = 'b', valuation = false)
+			@Valuation(clause = 'd', valuation = false),
+			@Valuation(clause = 'e', valuation = false)
 		}
 	)
 	@Test
@@ -54,10 +135,10 @@ class TriCongruenceTest {
 	}
 
 	@ClauseCoverage(
-		predicate = "a + b",
+		predicate = "d + e",
 		valuations = {
-			@Valuation(clause = 'a', valuation = true),
-			@Valuation(clause = 'b', valuation = true)
+			@Valuation(clause = 'd', valuation = true),
+			@Valuation(clause = 'e', valuation = true)
 		}
 	)
 	@Test
@@ -71,7 +152,7 @@ class TriCongruenceTest {
 	}
 
 	/**
-	 For CACC, first we have to select a major clause
+	 For CACC, first we have to select d major clause
 	 important point here is that {T F} is not feasible because of
 	 the sort command in the method
 	 we will choose second clause as major clause
@@ -80,12 +161,12 @@ class TriCongruenceTest {
 	 */
 
 	@CACC(
-		predicate = "a + b",
+		predicate = "d + e",
 		valuations = {
-			@Valuation(clause = 'a', valuation = false),
-			@Valuation(clause = 'b', valuation = true)
+			@Valuation(clause = 'd', valuation = false),
+			@Valuation(clause = 'e', valuation = true)
 		},
-		majorClause = 'b',
+		majorClause = 'e',
 		predicateValue = true
 	)
 	@Test
@@ -99,12 +180,12 @@ class TriCongruenceTest {
 	}
 
 	@CACC(
-		predicate = "a + b",
+		predicate = "d + e",
 		valuations = {
-			@Valuation(clause = 'a', valuation = false),
-			@Valuation(clause = 'b', valuation = false)
+			@Valuation(clause = 'd', valuation = false),
+			@Valuation(clause = 'e', valuation = false)
 		},
-		majorClause = 'b',
+		majorClause = 'e',
 		predicateValue = false
 	)
 	@Test
@@ -117,6 +198,11 @@ class TriCongruenceTest {
 		Assertions.assertTrue(areCongruent);
 	}
 
+
+	/**
+	 * TODO
+	 * explain your answer here
+	 */
 	private static boolean questionTwo(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		boolean predicate = false;
 //		predicate = a predicate with any number of clauses
