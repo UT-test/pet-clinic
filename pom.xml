@@ -142,6 +142,8 @@
       <groupId>com.github.mryf32</groupId>
       <artifactId>tractatus</artifactId>
       <version>1.0.4</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/resources/lib/tractatus-1.0.4.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
