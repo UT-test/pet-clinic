@@ -70,6 +70,53 @@ class TriCongruenceTest {
 		Assertions.assertFalse(areCongruent);
 	}
 
+	/**
+	 For CACC, first we have to select a major clause
+	 important point here is that {T F} is not feasible because of
+	 the sort command in the method
+	 we will choose second clause as major clause
+	 we will make test where clauses' values will be:
+	 {FT, FF}
+	 */
+
+	@CACC(
+		predicate = "a + b",
+		valuations = {
+			@Valuation(clause = 'a', valuation = false),
+			@Valuation(clause = 'b', valuation = true)
+		},
+		majorClause = 'b',
+		predicateValue = true
+	)
+	@Test
+	public void Line15CACCTest1() {
+		Triangle t1 = new Triangle(1, 1, 3);
+		Triangle t2 = new Triangle(1, 1, 3);
+
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+
+		Assertions.assertFalse(areCongruent);
+	}
+
+	@CACC(
+		predicate = "a + b",
+		valuations = {
+			@Valuation(clause = 'a', valuation = false),
+			@Valuation(clause = 'b', valuation = false)
+		},
+		majorClause = 'b',
+		predicateValue = false
+	)
+	@Test
+	public void Line15CACCTest2() {
+		Triangle t1 = new Triangle(3, 3, 4);
+		Triangle t2 = new Triangle(3, 3, 4);
+
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+
+		Assertions.assertTrue(areCongruent);
+	}
+
 	private static boolean questionTwo(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		boolean predicate = false;
 //		predicate = a predicate with any number of clauses
