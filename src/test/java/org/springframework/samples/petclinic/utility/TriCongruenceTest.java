@@ -200,8 +200,15 @@ class TriCongruenceTest {
 
 
 	/**
-	 * TODO
-	 * explain your answer here
+	 because CUTPNFP coverage contains only one unique true point for each clause of predict
+	 consider following example (from course slides):
+	 predict : ab + cd
+
+	 UTPC : {TTFF, TTFT, TTTF, FFTT, FTTT, TFTT}
+
+	 CUTPNFP : {TTFF, FFTT, TFFF, FTFF, FFTF, FFFT}
+
+	 for example we dont have TTTF in CUTPNFP
 	 */
 	private static boolean questionTwo(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		boolean predicate = false;
