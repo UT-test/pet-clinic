@@ -128,7 +128,7 @@ class IdentityMapTest {
 				int randomIndex = abs(random.nextInt()) % identityMapUnderTest.size();
 				SampleEntity entity = new SampleEntity(randomIndex);
 				identityMapUnderTest.add(entity);
-				System.out.println("sorting");
+//				System.out.println("sorting");
 				identityMapUnderTest.sort(new Comparator<SampleEntity>() {
 					@Override
 					public int compare(SampleEntity entity1, SampleEntity entity2) {
