@@ -1,3 +1,4 @@
+@pet_service
 Feature: Pet Service Feature
 
   Background: Sample General Preconditions Explanation
@@ -14,3 +15,9 @@ Feature: Pet Service Feature
     When Request for a new pet arrives
     Then The new pet is returned successfully
     And The new pet is saved in owners pets correctly
+
+
+  Scenario: Pet is found using pet id
+    Given There is a pet with id 11
+    And The pet has owner with id 2
+    Then The pet is returned successfully

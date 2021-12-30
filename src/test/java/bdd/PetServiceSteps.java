@@ -1,13 +1,16 @@
 package bdd;
 
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.owner.*;
+import org.springframework.samples.petclinic.utility.PetTimedCache;
+
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PetServiceSteps {
@@ -21,11 +24,21 @@ public class PetServiceSteps {
 	PetRepository petRepository;
 
 	@Autowired
+	PetTimedCache petTimedCache;
+
+	@Autowired
 	PetTypeRepository petTypeRepository;
 
 	private Owner owner;
-	private Pet newPet;
+	private Pet newPet, pet;
 	private PetType petType;
+
+	@Before("@pet_service")
+	public void setup() {
+		petType = new PetType();
+		petType.setName("cat");
+		petTypeRepository.save(petType);
+	}
 
 
 	@Given("There is a pet owner with id {int}")
@@ -61,6 +74,28 @@ public class PetServiceSteps {
 	@Then("The new pet is saved in owners pets correctly")
 	public void newPetIsSaved() {
 		assertThat(owner.getPets()).contains(newPet);
+	}
+
+
+	@Given("There is a pet with id {int}")
+	public void thereIsAPetWithId(Integer id) {
+		pet = new Pet();
+		pet.setName("Whiskers");
+		pet.setType(petType);
+		pet.setId(id);
+		pet.setBirthDate(LocalDate.of(2020, 4, 7));
+	}
+
+	@Given("The pet has owner with id {int}")
+	public void addPetToOwner(int ownerId) {
+		thereIsAPetOwnerWithId(ownerId);
+		owner.addPet(pet);
+		petTimedCache.save(pet);
+	}
+
+	@Then("The pet is returned successfully")
+	public void petIsFound() {
+		assertNotNull(petTimedCache.get(pet.getId()));
 	}
 
 }
