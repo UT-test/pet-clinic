@@ -2,7 +2,7 @@
 Feature: Pet Service Feature
 
   Background: Sample General Preconditions Explanation
-    Given There is some predefined pet types like "dog"
+    Given There is some predefined pet types like "cat"
 
   Scenario: Owner is found using owner id
     Given There is a pet owner with id 2
