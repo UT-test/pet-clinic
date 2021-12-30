@@ -6,6 +6,8 @@ import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.owner.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PetServiceSteps {
@@ -22,6 +24,7 @@ public class PetServiceSteps {
 	PetTypeRepository petTypeRepository;
 
 	private Owner owner;
+	private Pet newPet;
 	private PetType petType;
 
 
@@ -43,8 +46,21 @@ public class PetServiceSteps {
 	}
 
 	@Then("The owner is returned successfully")
-	public void petIsSaved() {
+	public void ownerIsFound() {
 		assertNotNull(petService.findOwner(owner.getId()));
+	}
+
+	@When("Request for a new pet arrives")
+	public void newPetRequestedPetService() {
+		newPet = petService.newPet(owner);
+	}
+
+	@Then("The new pet is returned successfully")
+	public void newPetReturnedPetService() { assertNotNull(newPet); }
+
+	@Then("The new pet is saved in owners pets correctly")
+	public void newPetIsSaved() {
+		assertThat(owner.getPets()).contains(newPet);
 	}
 
 }
