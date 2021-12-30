@@ -11,6 +11,7 @@ import org.springframework.samples.petclinic.utility.PetTimedCache;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PetServiceSteps {
@@ -96,6 +97,16 @@ public class PetServiceSteps {
 	@Then("The pet is returned successfully")
 	public void petIsFound() {
 		assertNotNull(petTimedCache.get(pet.getId()));
+	}
+
+	@When("Owner performs save pet service to add a pet to his list")
+	public void savePet() {
+		petService.savePet(pet, owner);
+	}
+
+	@Then("The pet is saved into pet cache successfully")
+	public void petIsSaved() {
+		assertThat(petTimedCache.get(pet.getId()).toString()).isEqualTo(pet.toString());
 	}
 
 }
